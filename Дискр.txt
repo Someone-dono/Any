@@ -1,0 +1,158 @@
+Меин:
+#include<iostream> 
+#include <conio.h>
+#include "QuadEquation.h"
+using namespace std;
+
+int main()
+{
+	setlocale(LC_ALL, "rus");
+	float a, b, c;
+	int key_pressed = 0;
+
+	do
+	{
+		cout << " Введите a " << endl;
+		cin >> a;
+		cout << "Введите b " << endl;
+		cin >> b;
+		cout << "Введите c " << endl;
+		cin >> c;
+
+		system("cls");
+
+		QuadEquation First_obj(a, b, c);
+		First_obj.print();
+
+		cout << endl;
+		cout << "Нажмите для продолжения" << endl;
+		key_pressed = _getch();
+		system("cls");
+
+	} while (key_pressed != 27);
+	
+	return 0;
+}
+=========================================
+QuadEquation.cpp
+#include "QuadEquation.h"
+#include<math.h> 
+#include<iostream>
+using namespace std;
+
+QuadEquation::QuadEquation() {}
+
+QuadEquation::QuadEquation(float A, float B, float C)
+{
+	Des = -1;
+	_sqrt = 0;
+	_sqrt1 = 0;
+	_sqrt2 = 0;
+	a = A;
+	b = B;
+	c = C;
+	GetSqrt();
+};
+
+void QuadEquation::GetSqrt()
+{
+	float D;
+
+	if (!a) 
+	{
+		if (!b)
+		{
+			if (!c)
+			{
+				cout <<"Корней нет" << endl;
+			}
+			else
+			{
+				cout << "Корней нет" << endl;
+			}
+		}
+		else {
+			_sqrt = -c / b;
+			 }
+	}
+	else {
+		D = (b*b) - 4 * a*c;
+		Des = D;
+
+		if (D > 0)
+		{
+			_sqrt1 = (-b + sqrt(D)) / (2 * a);
+			_sqrt2 = (-b - sqrt(D)) / (2 * a);
+		}
+		else if (D == 0) 
+		{
+			_sqrt = -b / (2 * a);
+		}
+		else
+		{
+			cout << "Корней нет" << endl;
+		}
+	}
+};
+
+void QuadEquation::print()
+{	
+
+	if (Des > 0)
+	{
+		cout << "X1 = " << _sqrt1 << endl;
+		cout << "X2 = " << _sqrt2 << endl;
+	}
+	else if (Des == 0)
+		cout << "Один корень X = " << _sqrt << endl;
+	
+};
+==============================================
+QuadEquation.h:
+#pragma once
+class QuadEquation
+{
+private:
+		
+	float a, b, c, _sqrt1, _sqrt2, _sqrt, Des;
+	void GetSqrt();
+
+public:
+
+	QuadEquation();
+	QuadEquation(float A, float B, float C);
+	void print();	
+};
+=====================================================
+UnitTest1.cpp
+#include "pch.h"
+#include "CppUnitTest.h"
+#include "../TRPO Quadratic Equation/QuadEquation.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace UnitTest1
+{
+	TEST_CLASS(UnitTest1)
+	{
+	public:
+		
+		TEST_METHOD(TestMethod1)
+		{
+			QuadEquation(0, 0, 0);
+			QuadEquation(-1, 0, 0);
+			QuadEquation(9, 0, 7);
+			QuadEquation(-1, 0, 36);
+			QuadEquation(1, 3, 0);
+			QuadEquation(1, -70, 600);
+			QuadEquation(-4, 28, -49);
+			QuadEquation(5, 6, 2);
+			QuadEquation("a", 1, 2);
+			QuadEquation(0, "b", 2);
+			QuadEquation(3, 1, "c");
+			QuadEquation("a", "b", "c");
+			QuadEquation(2, -3, -2);
+			QuadEquation(3, 5, -2);
+		}
+	};
+}
